@@ -1,6 +1,8 @@
-import "./index.css";
-import "./index1.css";
+import './css/index.css';
+import './css/index1.css';
+import a from './a';
+// import "./css/iconfont.css";
 // import "./index.less";
 // import "./index.sass";
-const a = 1;
-console.log(a);
+
+console.log('重新加载11122344', a);
