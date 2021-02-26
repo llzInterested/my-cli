@@ -5,6 +5,7 @@ const PostCssPresetEnv = require('postcss-preset-env');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 // 可重用的css loader
 const commonCssLoader = [
@@ -26,50 +27,59 @@ const commonCssLoader = [
 ];
 
 module.exports = {
-  entry: [resolve(__dirname, './src/index.js')],
+  entry: resolve(__dirname, './src/index.js'),
+  // entry: {
+  //   main: resolve(__dirname, './src/index.js'),
+  //   a: resolve(__dirname, './src/a.js'),
+  // },
   output: {
     path: resolve(__dirname, './dist'),
-    filename: 'index.js',
+    filename: 'js/[name].[contenthash:10].js',
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [...commonCssLoader],
-      },
-      {
-        test: /\.less$/,
-        use: [
-          ...commonCssLoader,
-          'less-loader',
+        // 只匹配数组中的一个loader
+        oneOf: [
+          {
+            test: /\.css$/,
+            use: [...commonCssLoader],
+          },
+          {
+            test: /\.less$/,
+            use: [
+              ...commonCssLoader,
+              'less-loader',
+            ],
+          },
+          {
+            test: /\.s[ac]ss$/,
+            use: [
+              ...commonCssLoader,
+              'sass-loader',
+            ],
+          },
+          {
+            test: /.(jpg|png|gif|jpeg|gif)$/,
+            loader: 'url-loader',
+            options: {
+              limit: 8 * 1024,
+              name: '[hash:10].[ext]',
+              outputPath: 'imgs',
+            },
+          },
+          {
+            test: /.html$/,
+            loader: 'html-loader',
+          },
+          {
+            exclude: /\.(css|less|sass|scss|js|html|jpg|jpeg|gif|png)$/,
+            loader: 'file-loader',
+            options: {
+              outputPath: 'media',
+            },
+          },
         ],
-      },
-      {
-        test: /\.s[ac]ss$/,
-        use: [
-          ...commonCssLoader,
-          'sass-loader',
-        ],
-      },
-      {
-        test: /.(jpg|png|gif|jpeg|gif)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 8 * 1024,
-          name: '[hash:10].[ext]',
-          outputPath: 'imgs',
-        },
-      },
-      {
-        test: /.html$/,
-        loader: 'html-loader',
-      },
-      {
-        exclude: /\.(css|less|sass|scss|js|html|jpg|jpeg|gif|png)$/,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'media',
-        },
       },
     ],
   },
@@ -85,9 +95,27 @@ module.exports = {
       },
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/main.css',
+      filename: 'css/main.[contenthash:10].css',
     }),
     new OptimizeCssAssetsWebpackPlugin(),
     new CleanWebpackPlugin(),
+    new WorkboxWebpackPlugin.GenerateSW({
+      // 这些选项帮助快速启用 ServiceWorkers
+      // 删除旧的 ServiceWorkers
+      clientsClaim: true,
+      skipWaiting: true,
+    }),
   ],
+  /**
+   * 可以将node_modules中的库单独打包一个chunk最终输出
+   * 如果多入口chunk中引入了相同的包，只会打包一个单独的chunk
+   */
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+  externals: {
+    jquery: 'jQuery',
+  },
 };
