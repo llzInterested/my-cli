@@ -4,9 +4,19 @@
 
 ###
 
-* css:`style-loader`,                                                                                                                                                                                                                               `css-loader`
-* less:`style-loader`,                                                                                                                                                                                                                               `css-loader`,                                                                                                                                                                                                                               `less-loader`(依赖less)
-* sass:`style-loader`,                                                                                                                                                                                                                               `css-loader`,                                                                                                                                                                                                                               `sass-loader`(依赖sass)
+* css:
+  + `style-loader`, 
+  + `css-loader`
+
+* less:
+  + `style-loader`
+  + `css-loader`
+  + `less-loader`(依赖less)
+
+* sass:
+  + `style-loader`
+  + `css-loader`
+  + `sass-loader`(依赖sass)
 
 ### 图片(css样式中的)
 
@@ -83,42 +93,47 @@
 
 2.   
 
-``` 
+```js 
 
 optimization: {
+
     splitChunks: {
       chunks: 'all',
     },
-  },
-```
 
-3. <span id="codeSplit3">将需要单独打包的文件按下面方式引入</span>：
+  }, 
 
 ``` 
 
-   import(模块路径).then(res=>{console.log('加载成功',res)}).catch(err=>{
-  console.log('加载失败',err)
+3. <span id="codeSplit3">将需要单独打包的文件按下面方式引入</span>：
+
+```js 
+
+   import(模块路径).then(res=>{console.log('加载成功', res)}).catch(err=>{
+  console.log('加载失败', err)
 })
+
 ```
 
 ## Lazy Loading(懒加载)
 
 > 使用[上述代码分割方3](#codeSplit3)es10的 `import` 语法即可
 
-``` 
+```js 
 
    import(模块路径).then(res=>{console.log('加载成功', res)}).catch(err=>{
   console.log('加载失败', err)
 })
-```
+
+``` 
 
 ## Prefetch(预加载)
 
 > 等其他资源加载完毕，浏览器空闲后再加载资源
 
-``` 
+```js
 
-import(/*webpackChunkName:'模块名称',webpackPrefetch:true*/模块路径).then(res=>{console.log('加载成功', res)}).catch(err=>{
+import(/*webpackChunkName:'模块名称', webpackPrefetch:true*/模块路径).then(res=>{console.log('加载成功', res)}).catch(err=>{
   console.log('加载失败', err)
 })
 ```
