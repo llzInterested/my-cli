@@ -1,9 +1,10 @@
 {
-  "name": "my-cli",
-  "version": "1.0.0",
+  "name": "{{projetName}}",
+  "version": "{{projectVersion}}",
   "main": "index.js",
-  "author": "lilz",
+  "author": "{{author}}",
   "license": "MIT",
+  "description": "{{projectDescription}}",
   "scripts": {
     "start": "webpack serve --config webpack.config.dev.js",
     "build": "webpack --config webpack.config.prod.js",
