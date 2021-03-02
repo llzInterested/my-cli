@@ -4,9 +4,9 @@
 
 ###
 
-* css:`style-loader`,                                                                                                                                                                                                       `css-loader`
-* less:`style-loader`,                                                                                                                                                                                                       `css-loader`,                                                                                                                                                                                                       `less-loader`(依赖less)
-* sass:`style-loader`,                                                                                                                                                                                                       `css-loader`,                                                                                                                                                                                                       `sass-loader`(依赖sass)
+* css:`style-loader`,                                                                                                                                                                                                                               `css-loader`
+* less:`style-loader`,                                                                                                                                                                                                                               `css-loader`,                                                                                                                                                                                                                               `less-loader`(依赖less)
+* sass:`style-loader`,                                                                                                                                                                                                                               `css-loader`,                                                                                                                                                                                                                               `sass-loader`(依赖sass)
 
 ### 图片(css样式中的)
 
@@ -148,3 +148,7 @@ import(/*webpackChunkName:'模块名称',webpackPrefetch:true*/模块路径).the
 > 对使用的第三方库单独打包，而不是所有node_modules中第三方包打包为一个js文件
 
 [webpack5踩坑](https://juejin.cn/post/6905364009969844232)
+
+# CZ
+
+`commitlint` , `@commitlint/config-conventional` , `husky`
