@@ -1,6 +1,4 @@
-const { resolve } = require('path');
 const { merge } = require('webpack-merge');
-const webpack = require('webpack');
 
 const commonConfig = require('./webpack.config.common');
 
@@ -8,14 +6,6 @@ process.env.NODE_ENV = 'production';
 
 module.exports = merge(commonConfig, {
   mode: 'production',
-  entry: {
-    jquery: ['jQuery'],
-  },
-  output: {
-    filename: '[name]111.js',
-    path: resolve(__dirname, 'dll'),
-    library: '[name]_[]',
-  },
   module: {
     rules: [
       {
@@ -47,10 +37,4 @@ module.exports = merge(commonConfig, {
       },
     ],
   },
-  plugins: [
-    new webpack.DllPlugin({
-      name: '[name]_[hash]', // 映射库的暴露内容名称
-      path: resolve(__dirname, 'dll/manifastaaa.json'),
-    }),
-  ],
 });

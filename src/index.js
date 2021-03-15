@@ -14,8 +14,6 @@ import './css/index1.css';
 console.log('index文件加载了', $);
 
 document.getElementById('box1').onclick = function () {
-  console.log('点击');
-
   import(/* webpackChunkName:'test',webpackPrefetch:true */'./a').then((res) => {
     console.log('点击111', res.a);
   });

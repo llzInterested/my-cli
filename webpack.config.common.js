@@ -6,6 +6,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
+const webpack = require('webpack');
 
 // 可重用的css loader
 const commonCssLoader = [
@@ -105,6 +107,15 @@ module.exports = {
       clientsClaim: true,
       skipWaiting: true,
     }),
+    // 告诉webpack哪些库不参与打包
+    new webpack.DllReferencePlugin({
+      manifest: resolve(__dirname, 'dll/manifest.json'),
+    }),
+    // 将某个文件打包输出并在html中自动引入
+    new AddAssetHtmlWebpackPlugin({
+      publicPath: './',
+      filepath: resolve(__dirname, 'dll/jquery.js'),
+    }),
   ],
   /**
    * 可以将node_modules中的库单独打包一个chunk最终输出
@@ -115,7 +126,7 @@ module.exports = {
       chunks: 'all',
     },
   },
-  externals: {
-    jquery: 'jQuery',
-  },
+  // externals: {
+  //   jquery: 'jQuery',
+  // },
 };
